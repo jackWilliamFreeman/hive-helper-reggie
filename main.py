@@ -49,7 +49,7 @@ async def strain(ctx):
 @bot.command(name="callout", brief="Reggie becomes your second in organising a duel", help="point this callout at a user, ie '!callout @user' for best effect")
 async def callout(ctx, arg):
     user = arg
-    reply = f"Oh Shit he done called you out {user}, What are you gonna do?"
+    reply = f"Oh Shit he done called you out {user}, What are you gonna do you {get_insult('long form')}?"
     await ctx.send(reply, files = [discord.File('ohshit.gif')])
 
 bot.run(os.getenv('TOKEN'))
