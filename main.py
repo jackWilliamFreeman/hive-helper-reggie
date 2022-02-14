@@ -38,12 +38,12 @@ async def soup(ctx, arg):
 
 @bot.command(name = "gimme", help="ole Reggie will petition on your behalf")
 async def gimme(ctx):
-    await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File('assets\gimme.jpg')])
+    await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File('gimme.jpg')])
     logging.info("gimme meme out!")
 
 @bot.command(name = "strain", help="ole Reggie will display the insignia of the biker strain")
 async def strain(ctx):
-    await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File('assets\strain.png')])
+    await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File('strain.png')])
     logging.info("gimme meme out!")
 
 
