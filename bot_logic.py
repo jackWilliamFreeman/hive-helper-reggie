@@ -11,8 +11,8 @@ class dice_params:
         self.dice_no = dice_no
     
 
-pre_insults = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ignorant', 'charged', 'addicted', 'overt', 'snobbish', 'irrepressible']
-post_insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore']
+insult_predicate = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ignorant', 'charged', 'addicted', 'overt', 'snobbish', 'irrepressible']
+insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore']
 
 def roll_dice(params):
     i = 1
@@ -24,7 +24,7 @@ def roll_dice(params):
     #handle case of too many rolls for discrete
     if params.is_distinct:
         if(params.dice_no > params.dice_size):
-            return f"oi {get_insult('short form')}, too many dice rolled versus dice options"
+            return f"oi {get_insult('short form')}, too many dice rolled for the amount of possible distinct options"
     #roll dice, handle discrete and addition case as well
     while i <= params.dice_no:
         roll = random.randint(1, params.dice_size) 
@@ -37,7 +37,7 @@ def roll_dice(params):
     rolls.sort()
     return rolls
                     
-async def format_dice_args(ctx, args):  
+async def format_dice_params(ctx, args):  
     global addition_arg
     global is_distinct
     global dice_size
@@ -53,7 +53,7 @@ async def format_dice_args(ctx, args):
         dice_no = int(dice_args[0] or 1)
         dice_size = int(dice_args[1])     
     else: 
-        await ctx.reply(f"give me a good format you {get_insult('long form')}, something like !roll 1d6 or !roll d6")
+        await ctx.reply(f"give me a good format you {get_insult('long form')}, something like !roll 1d6 or !roll d6, max 2 digits so 1-99")
         raise error("wrong dice format used")
 
     if len(args) > 1:
@@ -70,8 +70,8 @@ async def format_dice_args(ctx, args):
 
 def get_insult(arg):
     if arg == "long form":
-        insult = f"{pre_insults[random.randint(0, len(pre_insults)-1)]} {post_insults[random.randint(0, len(post_insults)-1)]}"
+        insult = f"{insult_predicate[random.randint(0, len(insult_predicate)-1)]} {insults[random.randint(0, len(insults)-1)]}"
     else:
-        insult = f"{post_insults[random.randint(0, len(post_insults)-1)]}"
+        insult = f"{insults[random.randint(0, len(insults)-1)]}"
     return insult
 
