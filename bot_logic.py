@@ -37,11 +37,6 @@ def roll_dice(params):
     return rolls
                     
 async def format_dice_params(ctx, args):  
-    global addition_arg
-    global is_distinct
-    global dice_size
-    global dice_no
-
     is_distinct = False
     addition_arg = 0
     dice_no = 1
