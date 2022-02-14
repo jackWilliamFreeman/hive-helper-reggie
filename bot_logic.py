@@ -1,6 +1,7 @@
 from distutils.log import error
 import random
 import re
+from sqlite3 import paramstyle
 
 class dice_params:
     def __init__(self, addition_arg, is_distinct, dice_size, dice_no):
@@ -13,30 +14,30 @@ class dice_params:
 pre_insults = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ignorant', 'charged', 'addicted', 'overt', 'snobbish', 'irrepressible']
 post_insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore']
 
-def roll_dice(dice_no, dice_size, addition_arg, is_distinct):
+def roll_dice(params):
     i = 1
     rolls = []
-    try: addition_arg
-    except: addition_arg = 0
-    try: is_distinct
-    except: is_distinct = False
+    try: params.addition_arg
+    except: params.addition_arg = 0
+    try: params.is_distinct
+    except: params.is_distinct = False
     #handle case of too many rolls for discrete
-    if is_distinct:
-        if(dice_no > dice_size):
+    if params.is_distinct:
+        if(params.dice_no > params.dice_size):
             return f"oi {get_insult('short form')}, too many dice rolled versus dice options"
     #roll dice, handle discrete and addition case as well
-    while i <= dice_no:
-        roll = random.randint(1, dice_size) 
-        if is_distinct and (roll + addition_arg) not in rolls:  
-            rolls.append(roll + addition_arg)
+    while i <= params.dice_no:
+        roll = random.randint(1, params.dice_size) 
+        if params.is_distinct and (roll + params.addition_arg) not in rolls:  
+            rolls.append(roll + params.addition_arg)
             i += 1
-        if not is_distinct:
+        if not params.is_distinct:
             i += 1
-            rolls.append(roll + addition_arg)   
+            rolls.append(roll + params.addition_arg)   
     rolls.sort()
     return rolls
                     
-async def format_dice_args(ctx, args, dice_params):  
+async def format_dice_args(ctx, args):  
     global addition_arg
     global is_distinct
     global dice_size
@@ -64,6 +65,8 @@ async def format_dice_args(ctx, args, dice_params):
             if current_arg.startswith('distinct'):
                 is_distinct = True
             i += 1
+    params = dice_params(addition_arg, is_distinct, dice_size, dice_no)
+    return params
 
 def get_insult(arg):
     if arg == "long form":
