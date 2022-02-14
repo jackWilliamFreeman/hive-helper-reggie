@@ -50,7 +50,7 @@ async def strain(ctx):
 async def callout(ctx, arg):
     user = arg
     reply = f"Oh Shit he done called you out {user}, What are you gonna do?"
-    await ctx.send(reply)
+    await ctx.send(reply, files = [discord.File('ohshit.gif')])
 
 bot.run(os.getenv('TOKEN'))
 
