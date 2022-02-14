@@ -8,6 +8,10 @@ Reggie likes to help gangers do the basics of surviving in Necromunda. A word of
 
 ## How Reggie can help:
 
+you can add Reggie to your server using the below link:
+
+https://discord.com/api/oauth2/authorize?client_id=942324443626221578&permissions=1539746297920&scope=bot
+
 ### !roll
 
 use: !roll [0-2 digits]d[1-2 digits]
