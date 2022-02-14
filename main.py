@@ -46,6 +46,11 @@ async def strain(ctx):
     await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File('strain.png')])
     logging.info("gimme meme out!")
 
+@bot.command(name="callout", brief="Reggie becomes your second in organising a duel", help="point this callout at a user, ie '!callout @user' for best effect")
+async def callout(ctx, arg):
+    user = arg
+    reply = f"Oh Shit he done called you out {user}, What are you gonna do?"
+    await ctx.send(reply)
 
 bot.run(os.getenv('TOKEN'))
 
