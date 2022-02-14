@@ -29,11 +29,11 @@ async def roll(ctx, *args):
     else:
         await ctx.reply(result)
 
-@bot.command(name="soup", brief="a trash tier meme from ole Reggie, point it at a user", help="point this meme at a user, ie '!soup @user' for best effect")
-async def soup(ctx, arg):
+@bot.command(name="no", brief="a trash tier meme from ole Reggie, point it at a user", help="point this meme at a user, ie '!no @user' for best effect")
+async def no(ctx, arg):
     user = arg
     reply = f"NO NECROMUNDA FOR YOU {user}"
-    logging.info("soup meme out!")
+    logging.info("no meme out!")
     await ctx.send(reply)
 
 @bot.command(name = "gimme", help="ole Reggie will petition on your behalf")
