@@ -10,7 +10,6 @@ class dice_params:
         self.dice_size = dice_size
         self.dice_no = dice_no
     
-
 insult_predicate = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ignorant', 'charged', 'addicted', 'overt', 'snobbish', 'irrepressible']
 insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore']
 
