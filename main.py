@@ -24,7 +24,7 @@ async def roll(ctx, *args):
     params = await format_dice_params(ctx, args)
     result = roll_dice(params)
     if isinstance(result, list):
-        logging.info("rolling some dice")
+        logging.info("rolling some dice for mates")
         await ctx.reply(f"Ere's your bloody dice: \r\n \r\n{result}\r\n\r\nYou {get_insult('long form')}")
     else:
         await ctx.reply(result)
