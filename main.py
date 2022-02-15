@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import os
-from bot_logic import format_dice_params, roll_dice, get_insult
+from bot_logic import format_dice_params, roll_dice, get_insult, get_scenario
 import logging
 
 intents = discord.Intents.all()
@@ -52,6 +52,21 @@ async def callout(ctx, arg):
     reply = f"Oh Shit he done called you out {user}, What are you gonna do you {get_insult('long form')}?"
     await ctx.send(reply, files = [discord.File('ohshit.gif')])
 
+@bot.command(name="battle", brief="get scenario and details for two users to battle", help="takes two users and whether to use the raider rules for this battle as arguments, ie. !battle @user1 @user2 raider or !battle @user1 @user2 settlement")
+async def battle(ctx, *args):
+    user1 = args[0]
+    user2 = args[1]
+    raider_choice  = args[2]
+
+    if raider_choice == "raider":
+        raider_choice = True
+    else: raider_choice = False
+
+    text = get_scenario(user1, user2, raider_choice)
+
+    await ctx.send(text)
+
+
 bot.run(os.getenv('TOKEN'))
 
-
+ 

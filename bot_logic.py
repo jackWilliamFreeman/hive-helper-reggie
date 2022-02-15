@@ -1,7 +1,8 @@
 from distutils.log import error
 import random
 import re
-from sqlite3 import paramstyle
+import pandas as pd
+import json
 
 class dice_params:
     def __init__(self, addition_arg, is_distinct, dice_size, dice_no):
@@ -9,9 +10,23 @@ class dice_params:
         self.is_distinct = is_distinct
         self.dice_size = dice_size
         self.dice_no = dice_no
+
+class scenario_results:
+    def __init__(self, scenario_name, gang_size, comment):
+        self.scenario_name = scenario_name
+        self.gang_size = gang_size
+        self.comment = comment
     
 insult_predicate = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ignorant', 'charged', 'addicted', 'overt', 'snobbish', 'irrepressible', 'hideous', 'blasphemous','spiteful','churlish','round-headed','purile']
 insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore','lummox','cad','heretic','simpleton','moron','catamite','fatso','virgin','nerd','grognard']
+
+
+def get_insult(arg):
+    if arg == "long form":
+        insult = f"{insult_predicate[random.randint(0, len(insult_predicate)-1)]} {insults[random.randint(0, len(insults)-1)]}"
+    else:
+        insult = f"{insults[random.randint(0, len(insults)-1)]}"
+    return insult
 
 def roll_dice(params):
     i = 1
@@ -35,6 +50,42 @@ def roll_dice(params):
             rolls.append(roll + params.addition_arg)   
     rolls.sort()
     return rolls
+
+def get_scenario(user1, user2, is_raider):
+    
+    badlands_scenario = get_badlands_scenario()
+    scenario = get_main_scenario_details(is_raider)
+
+    return_text = f"YO LISTEN UP: we got ourselves a battle now between {user1} and {user2}\r\
+    Now i always thought {user1} was a {get_insult('short form')} and {user2} was a {get_insult('short form')} but we got to lay some ground rules \r\
+    The scenario do be: **{scenario.scenario_name}**... {scenario.comment} \r\
+    The gang rules are: **{scenario.gang_size}**\r\
+    Now we be rolling in the badlands so make sure to beware of the event: **{badlands_scenario}**"
+    return return_text
+
+
+def get_main_scenario_details(is_raider):
+    scenario_dice_roll = random.randint(2,12)
+    global scenarios
+    if is_raider:
+        scenarios = pd.read_csv('assets\raider_scenarios.csv', header=0)
+    else: scenarios = pd.read_csv('assets\settlement_scenarios.csv', header=0)
+   
+    rolled_scenario = scenarios[scenarios.roll.eq(scenario_dice_roll)]
+    scenario_name= rolled_scenario.scenario.iloc[0]
+    gang_size_text = rolled_scenario.gang_size.iloc[0]
+    comment = rolled_scenario.comment.iloc[0]
+
+    scenario_details = scenario_results(scenario_name, gang_size_text, comment)
+    return scenario_details
+
+
+def get_badlands_scenario():
+    badlands_dice_roll = (random.randint(1,6)*10)+random.randint(1,6)
+    badlands_scenarios = pd.read_csv('assets\badland_events.csv', header=0, index_col=0, squeeze=True).to_dict()
+    rolled_badlands_scenario = badlands_scenarios[badlands_dice_roll]
+    return rolled_badlands_scenario
+
                     
 async def format_dice_params(ctx, args):  
     is_distinct = False
@@ -61,11 +112,4 @@ async def format_dice_params(ctx, args):
             i += 1
     params = dice_params(addition_arg, is_distinct, dice_size, dice_no)
     return params
-
-def get_insult(arg):
-    if arg == "long form":
-        insult = f"{insult_predicate[random.randint(0, len(insult_predicate)-1)]} {insults[random.randint(0, len(insults)-1)]}"
-    else:
-        insult = f"{insults[random.randint(0, len(insults)-1)]}"
-    return insult
 
