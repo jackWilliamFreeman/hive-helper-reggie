@@ -93,7 +93,7 @@ def get_house_equipment(items):
     if house_gear_list.roll_dice.values.tolist()[0] == 1:
         dice_size = house_gear_list.param.values.tolist()[0]
         roll = random.randint(1, dice_size)
-        text = f"{roll} X {house_gear_list.description.values.tolist()[0]}"
+        text = f"{int(roll)} x {house_gear_list.description.values.tolist()[0]}"
     else:
         text = f"{house_gear_list.param.values.tolist()[0]} X {house_gear_list.description.values.tolist()[0]}"
     return text
