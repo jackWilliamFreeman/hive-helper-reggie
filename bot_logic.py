@@ -20,6 +20,9 @@ class scenario_results:
 insult_predicate = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ignorant', 'charged', 'addicted', 'overt', 'snobbish', 'irrepressible', 'hideous', 'blasphemous','spiteful','churlish','round-headed','purile']
 insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore','lummox','cad','heretic','simpleton','moron','catamite','fatso','virgin','nerd','grognard']
 
+global localstring
+#localstring = 'assets/'
+localstring=''
 
 def get_insult(arg):
     if arg == "long form":
@@ -63,19 +66,20 @@ def get_scenario(user1, user2, is_raider):
         equipment_text = f'You also get to deal with these babies: \r\n\
             **{house_equip_text}**\r\n\
             **{standard_equip_text}**\r\n\
-            **{settlement_defence_text}**\r\n'
+            **{settlement_defence_text}**'
 
-    return_text = f"YO LISTEN UP: we got ourselves a battle now between {user1} and {user2}\r\
-    Now i always thought {user1} was a {get_insult('short form')} and {user2} was a {get_insult('short form')} but we got to lay some ground rules \r\
-    The scenario do be: **{scenario.scenario_name}**... {scenario.comment} \r\
-    The gang rules are: **{scenario.gang_size}**\r\
+    return_text = f"YO LISTEN UP YOU MANGY DOGS: we got ourselves a battle now between {user1} and {user2}\r\n\r\n\
+    Now i always thought {user1} was a {get_insult('short form')} and {user2} was a {get_insult('short form')} but we got to lay some ground rules \r\n\r\n\
+    The scenario do be: **{scenario.scenario_name}**... {scenario.comment} \r\n\r\n\
+    Now we be rolling in the badlands so make sure to beware of the event: **{badlands_scenario}**\r\n\r\n\
+    The gang rules are: **{scenario.gang_size}**\r\n\r\n\
     {gang_size_text}\
-    {equipment_text}\
-    Now we be rolling in the badlands so make sure to beware of the event: **{badlands_scenario}**"
+    {equipment_text}"
+    
     return return_text
 
 def get_trap_text():
-    items = pd.read_csv('traps_gear.csv', header=0)
+    items = pd.read_csv(f'{localstring}traps_gear.csv', header=0)
     house_equip_text = get_house_equipment(items)
     standard_equip_text = get_standard_equipment(items, 'Standard traps')
     settlement_defence_text = get_standard_equipment(items, 'Settlement defence')
@@ -95,7 +99,7 @@ def get_house_equipment(items):
         roll = random.randint(1, dice_size)
         text = f"{int(roll)} x {house_gear_list.description.values.tolist()[0]}"
     else:
-        text = f"{house_gear_list.param.values.tolist()[0]} X {house_gear_list.description.values.tolist()[0]}"
+        text = f"{int(house_gear_list.param.values.tolist()[0])} x {house_gear_list.description.values.tolist()[0]}"
     return text
 
 def get_gang_size_text(user1, user2, scenario):
@@ -103,7 +107,7 @@ def get_gang_size_text(user1, user2, scenario):
     if scenario.gang_size == "Choose d3+6 Gangers":
         user1_calc_gang_size = random.randint(1,3)+6
         user2_calc_gang_size = random.randint(1,3)+6
-        gang_size_text = f"congrats {user1} you get: **{user1_calc_gang_size} gangers**, congrats {user2} you get **{user2_calc_gang_size} gangers**\r\n"
+        gang_size_text = f"congrats {user1} you get: **{user1_calc_gang_size} gangers**, congrats {user2} you get **{user2_calc_gang_size} gangers**\r\n\r\n"
     return gang_size_text
 
 
@@ -111,8 +115,8 @@ def get_main_scenario_details(is_raider):
     scenario_dice_roll = random.randint(2,12)
     global scenarios
     if is_raider:
-        scenarios = pd.read_csv('raider_scenarios.csv', header=0)
-    else: scenarios = pd.read_csv('settlement_scenarios.csv', header=0)
+        scenarios = pd.read_csv(f'{localstring}raider_scenarios.csv', header=0)
+    else: scenarios = pd.read_csv(f'{localstring}settlement_scenarios.csv', header=0)
    
     rolled_scenario = scenarios[scenarios.roll.eq(scenario_dice_roll)]
     scenario_name= rolled_scenario.scenario.iloc[0]
@@ -125,7 +129,7 @@ def get_main_scenario_details(is_raider):
 
 def get_badlands_scenario():
     badlands_dice_roll = (random.randint(1,6)*10)+random.randint(1,6)
-    badlands_scenarios = pd.read_csv('badland_events.csv', header=0, index_col=0, squeeze=True).to_dict()
+    badlands_scenarios = pd.read_csv(f'{localstring}badland_events.csv', header=0, index_col=0,squeeze=True).to_dict()
     rolled_badlands_scenario = badlands_scenarios[badlands_dice_roll]
     return rolled_badlands_scenario
 
