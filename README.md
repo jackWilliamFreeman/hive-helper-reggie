@@ -36,7 +36,7 @@ use: !no @[user]
 
   Reggie will scorn a user in a unique manner!
 
-### !battle [user1] [user2] [identifier]
+### !battle
   
 use: !battle [user1] [user2] [identifier] eg. !battle @jack @matt raider (identifier options are 'raider' and 'settlement')
 
