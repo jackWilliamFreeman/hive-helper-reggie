@@ -10,6 +10,8 @@ COPY /assets/. .
 # install dependencies
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r Requirements.txt
+ENV AM_I_IN_A_DOCKER_CONTAINER Yes
+
 
 # tell the port number the container should expose
 EXPOSE 5000

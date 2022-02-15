@@ -56,6 +56,8 @@ async def callout(ctx, arg):
 
 @bot.command(name="battle", brief="get scenario and details for two users to battle", help="takes two users and whether to use the raider rules for this battle as arguments, ie. !battle @user1 @user2 raider or !battle @user1 @user2 settlement")
 async def battle(ctx, *args):
+    if len(args) < 3 or len(args) > 3:
+        await ctx.reply(f"oi you {get_insult('long form')}, i need two users and either 'settlement' or 'raider' as inputs")
     user1 = args[0]
     user2 = args[1]
     raider_choice  = args[2]

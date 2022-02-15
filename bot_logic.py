@@ -3,6 +3,7 @@ import random
 import re
 import pandas as pd
 import json
+import os
 
 class dice_params:
     def __init__(self, addition_arg, is_distinct, dice_size, dice_no):
@@ -21,8 +22,13 @@ insult_predicate = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ign
 insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore','lummox','cad','heretic','simpleton','moron','catamite','fatso','virgin','nerd','grognard']
 
 global localstring
-#localstring = 'assets/'
-localstring=''
+KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
+
+if KEY:
+    localstring=''
+else:
+    localstring = 'assets/'
+
 
 def get_insult(arg):
     if arg == "long form":
