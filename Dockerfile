@@ -8,6 +8,7 @@ COPY . .
 COPY /assets/. .
 
 # install dependencies
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r Requirements.txt
 
 # tell the port number the container should expose
