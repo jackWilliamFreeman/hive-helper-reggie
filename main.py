@@ -31,10 +31,12 @@ async def roll(ctx, *args):
 
 @bot.command(name="no", brief="a trash tier meme from ole Reggie, point it at a user", help="point this meme at a user, ie '!no @user' for best effect")
 async def no(ctx, arg):
+    try: arg
+    except: ctx.reply(f"put in a user to target as an argument you {get_insult('long form')}")
     user = arg
     reply = f"NO NECROMUNDA FOR YOU {user}"
     logging.info("no meme out!")
-    await ctx.send(reply)
+    await ctx.send(reply, files = [discord.File('no.jpg')])
 
 @bot.command(name = "gimme", help="ole Reggie will petition on your behalf")
 async def gimme(ctx):
