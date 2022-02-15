@@ -68,8 +68,8 @@ def get_main_scenario_details(is_raider):
     scenario_dice_roll = random.randint(2,12)
     global scenarios
     if is_raider:
-        scenarios = pd.read_csv('assets\raider_scenarios.csv', header=0)
-    else: scenarios = pd.read_csv('assets\settlement_scenarios.csv', header=0)
+        scenarios = pd.read_csv('raider_scenarios.csv', header=0)
+    else: scenarios = pd.read_csv('settlement_scenarios.csv', header=0)
    
     rolled_scenario = scenarios[scenarios.roll.eq(scenario_dice_roll)]
     scenario_name= rolled_scenario.scenario.iloc[0]
@@ -82,7 +82,7 @@ def get_main_scenario_details(is_raider):
 
 def get_badlands_scenario():
     badlands_dice_roll = (random.randint(1,6)*10)+random.randint(1,6)
-    badlands_scenarios = pd.read_csv('assets\badland_events.csv', header=0, index_col=0, squeeze=True).to_dict()
+    badlands_scenarios = pd.read_csv('badland_events.csv', header=0, index_col=0, squeeze=True).to_dict()
     rolled_badlands_scenario = badlands_scenarios[badlands_dice_roll]
     return rolled_badlands_scenario
 
