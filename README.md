@@ -30,8 +30,20 @@ use: !gimme
 
   Reggie will fight for you to get what you want!
   
-### !soup
+### !no
   
-use: !soup @[user]
+use: !no @[user]
 
   Reggie will scorn a user in a unique manner!
+
+### !battle
+  
+use: !battle [user1] [user2] [identifier] eg. !battle @jack @matt raider (identifier options are 'raider' and 'settlement')
+
+  Reggie will set up your battle for you, truely randomn
+ 
+### !callout
+  
+use: !callout @[user]
+
+  Reggie will callout some fool and throw shade on your behalf
