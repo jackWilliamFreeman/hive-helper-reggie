@@ -172,10 +172,11 @@ def get_treasure_result(user, is_smashed):
     moderator = 0
     if is_smashed:
         moderator = 3
-
     ten_roll = random.randint(1,6) * 10
-    single_roll = random.randint(1,6)
-    d66 = ten_roll + (single_roll - moderator)
+    single_roll = random.randint(1,6) - moderator
+    if single_roll <= 0 :
+        single_roll = 1
+    d66 = ten_roll + single_roll
     text = ''    
     description = ''
     short_description = False
