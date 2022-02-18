@@ -2,7 +2,9 @@ import random
 import discord
 from discord.ext import commands
 import os
-from bot_logic import format_dice_params, roll_dice, get_insult, get_scenario
+
+from numpy import true_divide
+from bot_logic import format_dice_params, roll_dice, get_insult, get_scenario, get_treasure_result
 import logging
 import glob
 
@@ -72,6 +74,21 @@ async def battle(ctx, *args):
     text = get_scenario(user1, user2, raider_choice)
 
     await ctx.send(text)
+
+@bot.command(name="loot", brief="reggie will reach into his magic loincloth for a special treat", help="takes an argument of a user who rolled and an optional 'smashed' to indicate smashing it. eg. !loot @jack smashed or !loot @jack")
+async def loot(ctx, *args):
+    is_smashed = False
+    if not args:
+        await ctx.reply(f"oi you {get_insult('long form')}, i need a user and optionally if they smashed it or not, if they smashed it write 'smashed' as well")
+        return
+    if len(args) == 2:
+        if args[1] != 'smashed':
+            await ctx.reply(f"oi you {get_insult('long form')}, i need a user and optionally if they smashed it or not, if they smashed it write 'smashed' as well")
+            return
+        else: is_smashed = True
+            
+    text = get_treasure_result(args[0], is_smashed)
+    await ctx.reply(text)
 
 
 bot.run(os.getenv('TOKEN'))
