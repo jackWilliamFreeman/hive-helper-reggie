@@ -220,7 +220,7 @@ def get_treasure_result(user, is_smashed):
         text = f"Lets roll some dice before i reach into my magic loincloth of mystery!\r\n\
         \r\nWell you first up rolled a **{d66}**...interesting, that means you win: **{description}**\r\n\
         \r\nYou then rolled a {dice_text}\r\n\
-        \r\nFor that role you get: **{result}**\r\n\
+        \r\nFor that roll you get: **{result}**\r\n\
         \r\nDo you like that {user}, you {get_insult('long form')}!? Well do ya?"
 
     return text
