@@ -1,8 +1,10 @@
+import random 
 import discord
 from discord.ext import commands
 import os
 from bot_logic import format_dice_params, roll_dice, get_insult, get_scenario
 import logging
+import glob
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", case_insensitive=True)
@@ -49,10 +51,11 @@ async def strain(ctx):
     logging.info("gimme meme out!")
 
 @bot.command(name="callout", brief="Reggie becomes your second in organising a duel", help="point this callout at a user, ie '!callout @user' for best effect")
-async def callout(ctx, arg):
-    user = arg
-    reply = f"Oh Shit he done called you out {user}, What are you gonna do you {get_insult('long form')}?"
-    await ctx.send(reply, files = [discord.File('ohshit.gif')])
+async def callout(ctx, user):
+    gifs = glob.glob("*.gif")
+    selected_gif = gifs[random.randint(0, len(gifs) -1)]
+    text = f"Oh Shit! Hey {user}! I heard over by the facotorium sump that <@{ctx.message.author.id}> called you a {get_insult('long form')}, what you gonna do?!?"
+    await ctx.send(text, files = [discord.File(selected_gif)])
 
 @bot.command(name="battle", brief="get scenario and details for two users to battle", help="takes two users and whether to use the raider rules for this battle as arguments, ie. !battle @user1 @user2 raider or !battle @user1 @user2 settlement")
 async def battle(ctx, *args):
