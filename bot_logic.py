@@ -19,8 +19,8 @@ class scenario_results:
         self.gang_size = gang_size
         self.comment = comment
     
-insult_predicate = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ignorant', 'charged', 'addicted', 'overt', 'snobbish', 'irrepressible', 'hideous', 'blasphemous','spiteful','churlish','round-headed','purile']
-insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore','lummox','cad','heretic','simpleton','moron','catamite','fatso','virgin','nerd','grognard']
+insult_predicate = ['moronic', 'obtuse', 'inane', 'rotund', 'fat', 'surly', 'ignorant', 'charged', 'addicted', 'overt', 'snobbish', 'irrepressible', 'hideous', 'blasphemous','spiteful','churlish','round-headed','purile', 'turgid', 'flappable', 'up-hive', 'impulsive', 'goat-faced', 'inbred']
+insults = ['slattern', 'grox fucker', 'turkey', 'whoreson', 'fat cat', 'brigand', 'illiterate', 'cunt', 'whore','lummox','cad','heretic','simpleton','moron','catamite','fatso','virgin','nerd','grognard', 'swine', 'cockroach', 'mutton', 'plebian', 'fucker', 'shithead', 'imbecile']
 
 global localstring
 KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
@@ -52,12 +52,18 @@ def roll_dice(params):
     #roll dice, handle discrete and addition case as well
     while i <= params.dice_no:
         roll = random.randint(1, params.dice_size) 
-        if params.is_distinct and (roll + params.addition_arg) not in rolls:  
-            rolls.append(roll + params.addition_arg)
+        if params.is_distinct and (roll) not in rolls:  
+            rolls.append(roll)
             i += 1
         if not params.is_distinct:
             i += 1
-            rolls.append(roll + params.addition_arg)   
+            rolls.append(roll) 
+        if params.addition_arg > 0:
+            total = 0
+            for roll in rolls:
+                total += roll
+            total += params.addition_arg
+            return total
     rolls.sort()
     return rolls
 

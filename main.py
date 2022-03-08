@@ -31,7 +31,7 @@ async def roll(ctx, *args):
         logging.info("rolling some dice for mates")
         await ctx.reply(f"Ere's your bloody dice: \r\n \r\n{result}\r\n\r\nYou {get_insult('long form')}")
     else:
-        await ctx.reply(result)
+        await ctx.reply(f"Oh, want me to do some addition eh? Well here is your result: \r\n \r\n{result}\r\n\r\nYou {get_insult('long form')}")
 
 @bot.command(name="no", brief="a trash tier meme from ole Reggie, point it at a user", help="point this meme at a user, ie '!no @user' for best effect")
 async def no(ctx, arg):
