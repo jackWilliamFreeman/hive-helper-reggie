@@ -58,12 +58,14 @@ def roll_dice(params):
         if not params.is_distinct:
             i += 1
             rolls.append(roll) 
-        if params.addition_arg > 0:
-            total = 0
-            for roll in rolls:
-                total += roll
-            total += params.addition_arg
-            return total
+    if params.addition_arg > 0:
+        total = 0
+        for roll in rolls:
+            total += roll
+        total += params.addition_arg
+        return f"Getting me to do quick mafs eh? well Reggie learned his letters so 'ere we go:\
+                \r\nyou rolled **{rolls}** + **{params.addition_arg}**, when I add them all together I get: **{total}**\
+                \r\nHow is that for quick mafs you {get_insult('short form')}"
     rolls.sort()
     return rolls
 

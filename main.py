@@ -18,6 +18,13 @@ async def on_ready():
                           type = discord.ActivityType.watching, 
                           name = ' for some fucker to ask to me roll for them'))
 
+global localstring
+KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
+
+if KEY:
+    localstring=''
+else:
+    localstring = 'assets/'
 
 @bot.command(name="roll", brief="Unable to do basic mafs? ole Reggie knows his letters", help="ole Reggie will roll some dice, accepted formats: XXdXX ie 1d4 or 10d20, also accepts parameters after like 'distinct' to keep rolls distinct. eg. !roll 10d4 distinct",usage="[0-2]<number> d [1-2]<number> eg. 10d20 or d4, optional parameters: '+number' to add to rolls and 'distinct' to keep only unique rolls")
 async def roll(ctx, *args):
@@ -30,31 +37,41 @@ async def roll(ctx, *args):
     if isinstance(result, list):
         logging.info("rolling some dice for mates")
         await ctx.reply(f"Ere's your bloody dice: \r\n \r\n{result}\r\n\r\nYou {get_insult('long form')}")
-    else:
-        await ctx.reply(f"Oh, want me to do some addition eh? Well here is your result: \r\n \r\n{result}\r\n\r\nYou {get_insult('long form')}")
+        return
+    if params.addition_arg != 0:
+        await ctx.reply(result)
+        return
+    await ctx.reply(f"sumfink aint right with that input, try and stick to the format you {get_insult('long form')}")
+    
 
 @bot.command(name="no", brief="a trash tier meme from ole Reggie, point it at a user", help="point this meme at a user, ie '!no @user' for best effect")
-async def no(ctx, arg):
+async def no(ctx, *arg):
     try: arg
     except: ctx.reply(f"put in a user to target as an argument you {get_insult('long form')}")
-    user = arg
+    user = arg[0]
     reply = f"NO NECROMUNDA FOR YOU {user}"
     logging.info("no meme out!")
-    await ctx.send(reply, files = [discord.File('no.jpg')])
+    await ctx.send(reply, files = [discord.File(f'{localstring}no.jpg')])
+
+@bot.command(name="praise", brief="reggie gonna give it to ya", help="point this meme at a user, ie '!praise @user' for best effect")
+async def praise(ctx, *arg):
+    try: arg
+    except: ctx.reply(f"put in a user to target as an argument you {get_insult('long form')}")
+    user = arg[0]
+    reply = f'So it appears that {ctx.author.mention} wants someone to praise {user}\
+    \r\n so congrats {user} you are a special snowflake and definately not a {get_insult("short form")}'
+    logging.info("praise meme out!")
+    await ctx.send(reply, files = [discord.File(f'{localstring}praise.gif')])
 
 @bot.command(name = "gimme", help="ole Reggie will petition on your behalf")
 async def gimme(ctx):
-    await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File('gimme.jpg')])
+    await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File(f'{localstring}gimme.jpg')])
     logging.info("gimme meme out!")
 
-@bot.command(name = "strain", help="ole Reggie will display the insignia of the biker strain")
-async def strain(ctx):
-    await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File('strain.png')])
-    logging.info("gimme meme out!")
 
 @bot.command(name="callout", brief="Reggie becomes your second in organising a duel", help="point this callout at a user, ie '!callout @user' for best effect")
 async def callout(ctx, user):
-    gifs = glob.glob("*.gif")
+    gifs = glob.glob(f"{localstring}*.gif")
     selected_gif = gifs[random.randint(0, len(gifs) -1)]
     text = f"Oh Shit! Hey {user}! I heard over by the facotorium sump that <@{ctx.message.author.id}> called you a {get_insult('long form')}, what you gonna do?!?"
     await ctx.send(text, files = [discord.File(selected_gif)])
