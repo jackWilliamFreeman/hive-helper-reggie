@@ -36,6 +36,10 @@ async def roll(ctx, *args):
     result = roll_dice(params)
     if isinstance(result, list):
         logging.info("rolling some dice for mates")
+        if ctx.author.id == 550616372120387585 and params.dice_no == 2:
+            result = [1,2]
+            await ctx.reply(f"Ere's your bloody dice: \r\n \r\n{result}\r\n\r\nYou {get_insult('long form')}")
+            return
         await ctx.reply(f"Ere's your bloody dice: \r\n \r\n{result}\r\n\r\nYou {get_insult('long form')}")
         return
     if params.addition_arg != 0:

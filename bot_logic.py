@@ -154,8 +154,8 @@ async def format_dice_params(ctx, args):
     addition_arg = 0
     dice_no = 1
     dice_size = 1
-    match = re.search('^\d{0,2}d\d{1,2}$', args[0])
-    dice_args = args[0].split("d")
+    match = re.search('^\d{0,2}d\d{1,2}$', args[0].lower())
+    dice_args = args[0].lower().split("d")
     if match:
         dice_no = int(dice_args[0] or 1)
         dice_size = int(dice_args[1])     
