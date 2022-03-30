@@ -53,6 +53,22 @@ async def no(ctx, *arg):
     logging.info("no meme out!")
     await ctx.send(reply, files = [discord.File(f'{localstring}no.jpg')])
 
+@bot.command(name="deal", brief="user agrees to a deal", help="point this meme at a user, ie '!no @user' for best effect")
+async def deal(ctx, *arg):
+    try: arg
+    except: ctx.reply(f"put in a user to target as an argument you {get_insult('long form')}")
+    user = arg[0]
+    reply = f"ITS A DEAL {user}!, you lucky {get_insult('short form')}"
+    await ctx.send(reply, files = [discord.File(f'{localstring}deal.jpg')])
+
+@bot.command(name="nodeal", brief="user does not agree to a deal", help="point this meme at a user, ie '!no @user' for best effect")
+async def nodeal(ctx, *arg):
+    try: arg
+    except: ctx.reply(f"put in a user to target as an argument you {get_insult('long form')}")
+    user = arg[0]
+    reply = f"HARD PASS {user}!, you {get_insult('long form')}"
+    await ctx.send(reply, files = [discord.File(f'{localstring}no_deal.jpg')])
+
 @bot.command(name="praise", brief="reggie gonna give it to ya", help="point this meme at a user, ie '!praise @user' for best effect")
 async def praise(ctx, *arg):
     try: arg
