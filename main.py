@@ -4,7 +4,11 @@ from discord.ext import commands
 import os
 
 from numpy import true_divide
-from bot_logic import format_dice_params, roll_dice, get_insult, get_scenario, get_treasure_result
+from insult_logic import get_insult
+from dice_logic import format_dice_params, roll_dice
+from scenario_logic import get_scenario
+from treasure_logic import get_treasure_result
+from advancement_logic import get_advancement_table_text, get_advancement_text
 import logging
 import glob
 
@@ -13,10 +17,10 @@ bot = commands.Bot(command_prefix="!", case_insensitive=True)
 
 @bot.event
 async def on_ready():
-    logging.info('We have logged in as {0.user}'.format(bot))
+    print('We have logged in as {0.user}'.format(bot))
     await bot.change_presence(activity = discord.Activity(
-                          type = discord.ActivityType.watching, 
-                          name = ' for some fucker to ask to me roll for them'))
+                          type = discord.ActivityType.listening, 
+                          name = 'to deep hive psy trance'))
 
 global localstring
 KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
@@ -96,16 +100,7 @@ async def callout(ctx, user):
 async def battle(ctx, *args):
     if len(args) < 3 or len(args) > 3:
         await ctx.reply(f"oi you {get_insult('long form')}, i need two users and either 'settlement' or 'raider' as inputs")
-    user1 = args[0]
-    user2 = args[1]
-    raider_choice  = args[2]
-
-    if raider_choice == "raider":
-        raider_choice = True
-    else: raider_choice = False
-
-    text = get_scenario(user1, user2, raider_choice)
-
+    text = get_scenario(args)
     await ctx.send(text)
 
 @bot.command(name="loot", brief="reggie will reach into his magic loincloth for a special treat", help="takes an argument of a user who rolled and an optional 'smashed' to indicate smashing it. eg. !loot @jack smashed or !loot @jack")
@@ -118,10 +113,21 @@ async def loot(ctx, *args):
         if args[1] != 'smashed':
             await ctx.reply(f"oi you {get_insult('long form')}, i need a user and optionally if they smashed it or not, if they smashed it write 'smashed' as well")
             return
-        else: is_smashed = True
-            
+        else: is_smashed = True     
     text = get_treasure_result(args[0], is_smashed)
     await ctx.reply(text)
+
+@bot.command(name="advance", brief="Reggie is gonna give your ganger some tutelage", help="see how you go, await response.")
+async def advance(ctx, *args):
+    is_ganger = False
+    if args:
+        if args[0] == 'ganger':
+            is_ganger = True
+    await ctx.send(f"Here is the advancement table ya {get_insult('short_form')}")
+    await ctx.send(get_advancement_table_text(is_ganger))
+    roll = random.randint(2,12)
+    advancement = get_advancement_text(roll, is_ganger)
+    await ctx.send(f'{advancement}')
 
 
 bot.run(os.getenv('TOKEN'))
