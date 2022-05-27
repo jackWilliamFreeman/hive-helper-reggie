@@ -6,7 +6,7 @@ import os
 from numpy import true_divide
 from insult_logic import get_insult
 from dice_logic import format_dice_params, roll_dice
-from scenario_logic import get_scenario
+from scenario_logic import get_scenario, get_new_scenario
 from treasure_logic import get_treasure_result
 from advancement_logic import get_advancement_table_text, get_advancement_text
 import logging
@@ -98,9 +98,10 @@ async def callout(ctx, user):
 
 @bot.command(name="battle", brief="get scenario and details for two users to battle", help="takes two users and whether to use the raider rules for this battle as arguments, ie. !battle @user1 @user2 raider or !battle @user1 @user2 settlement")
 async def battle(ctx, *args):
-    if len(args) < 3 or len(args) > 3:
-        await ctx.reply(f"oi you {get_insult('long form')}, i need two users and either 'settlement' or 'raider' as inputs")
-    text = get_scenario(args)
+    if len(args) < 2 or len(args) > 2:
+        await ctx.reply(f"oi you {get_insult('long form')}, i need two users to put against each other")
+    #text = get_scenario(args, ctx)
+    text = await get_new_scenario(args,ctx);
     await ctx.send(text)
 
 @bot.command(name="loot", brief="reggie will reach into his magic loincloth for a special treat", help="takes an argument of a user who rolled and an optional 'smashed' to indicate smashing it. eg. !loot @jack smashed or !loot @jack")
