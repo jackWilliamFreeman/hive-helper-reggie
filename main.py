@@ -11,7 +11,8 @@ from treasure_logic import get_treasure_result
 from advancement_logic import get_advancement_table_text, get_advancement_text
 import logging
 import glob
-
+#BRAD_ID = 639967800106024983
+BRAD_ID = 550616372120387585
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", case_insensitive=True)
 
@@ -21,6 +22,13 @@ async def on_ready():
     await bot.change_presence(activity = discord.Activity(
                           type = discord.ActivityType.listening, 
                           name = 'to deep hive psy trance'))
+
+async def insult_brad(ctx):
+    if ctx.message.author.id == BRAD_ID:
+        await ctx.message.reply(f"Oi Brad, you want some help you {get_insult('short form')}!? You have made some powerful enemies you {get_insult('long form')}!")
+        return True
+    else:
+        return False
 
 global localstring
 KEY = os.environ.get('AM_I_IN_A_DOCKER_CONTAINER', False)
@@ -32,6 +40,8 @@ else:
 
 @bot.command(name="roll", brief="Unable to do basic mafs? ole Reggie knows his letters", help="ole Reggie will roll some dice, accepted formats: XXdXX ie 1d4 or 10d20, also accepts parameters after like 'distinct' to keep rolls distinct. eg. !roll 10d4 distinct",usage="[0-2]<number> d [1-2]<number> eg. 10d20 or d4, optional parameters: '+number' to add to rolls and 'distinct' to keep only unique rolls")
 async def roll(ctx, *args):
+    if await insult_brad(ctx):
+        return
     try: args
     except: 
         await ctx.send(f"you gotta specify some dice arguments you {get_insult('long form')}, try 1d6 or something")
@@ -50,6 +60,8 @@ async def roll(ctx, *args):
 
 @bot.command(name="no", brief="a trash tier meme from ole Reggie, point it at a user", help="point this meme at a user, ie '!no @user' for best effect")
 async def no(ctx, *arg):
+    if await insult_brad(ctx):
+        return
     try: arg
     except: ctx.reply(f"put in a user to target as an argument you {get_insult('long form')}")
     user = arg[0]
@@ -59,6 +71,8 @@ async def no(ctx, *arg):
 
 @bot.command(name="deal", brief="user agrees to a deal", help="point this meme at a user, ie '!no @user' for best effect")
 async def deal(ctx, *arg):
+    if await insult_brad(ctx):
+        return
     try: arg
     except: ctx.reply(f"put in a user to target as an argument you {get_insult('long form')}")
     user = arg[0]
@@ -67,6 +81,8 @@ async def deal(ctx, *arg):
 
 @bot.command(name="nodeal", brief="user does not agree to a deal", help="point this meme at a user, ie '!no @user' for best effect")
 async def nodeal(ctx, *arg):
+    if await insult_brad(ctx):
+        return
     try: arg
     except: ctx.reply(f"put in a user to target as an argument you {get_insult('long form')}")
     user = arg[0]
@@ -85,6 +101,8 @@ async def praise(ctx, *arg):
 
 @bot.command(name = "gimme", help="ole Reggie will petition on your behalf")
 async def gimme(ctx):
+    if await insult_brad(ctx):
+        return
     await ctx.reply(f"here you go you {get_insult('long form')}", files = [discord.File(f'{localstring}gimme.jpg')])
     logging.info("gimme meme out!")
 
@@ -98,6 +116,8 @@ async def callout(ctx, user):
 
 @bot.command(name="battle", brief="get scenario and details for two users to battle", help="takes two users and whether to use the raider rules for this battle as arguments, ie. !battle @user1 @user2 raider or !battle @user1 @user2 settlement")
 async def battle(ctx, *args):
+    if await insult_brad(ctx):
+        return
     if len(args) < 2 or len(args) > 2:
         await ctx.reply(f"oi you {get_insult('long form')}, i need two users to put against each other")
     #text = get_scenario(args, ctx)
@@ -106,6 +126,8 @@ async def battle(ctx, *args):
 
 @bot.command(name="loot", brief="reggie will reach into his magic loincloth for a special treat", help="takes an argument of a user who rolled and an optional 'smashed' to indicate smashing it. eg. !loot @jack smashed or !loot @jack")
 async def loot(ctx, *args):
+    if await insult_brad(ctx):
+        return
     is_smashed = False
     if not args:
         await ctx.reply(f"oi you {get_insult('long form')}, i need a user and optionally if they smashed it or not, if they smashed it write 'smashed' as well")
@@ -120,6 +142,8 @@ async def loot(ctx, *args):
 
 @bot.command(name="advance", brief="Reggie is gonna give your ganger some tutelage", help="see how you go, await response.")
 async def advance(ctx, *args):
+    if await insult_brad(ctx):
+        return
     is_ganger = False
     if args:
         if args[0] == 'ganger':
