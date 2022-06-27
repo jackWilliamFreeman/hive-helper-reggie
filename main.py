@@ -11,8 +11,8 @@ from treasure_logic import get_treasure_result
 from advancement_logic import get_advancement_table_text, get_advancement_text
 import logging
 import glob
-#BRAD_ID = 639967800106024983
-BRAD_ID = 550616372120387585
+BRAD_ID = 639967800106024983
+#BRAD_ID = 550616372120387585
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", case_insensitive=True)
 
