@@ -20,8 +20,8 @@ bot = commands.Bot(command_prefix="!", case_insensitive=True)
 async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
     await bot.change_presence(activity = discord.Activity(
-                          type = discord.ActivityType.listening, 
-                          name = 'to deep hive psy trance'))
+                          type = discord.ActivityType.watching, 
+                          name = 'that snake BRAD because he is fucked'))
 
 async def insult_brad(ctx):
     if ctx.message.author.id == BRAD_ID:
