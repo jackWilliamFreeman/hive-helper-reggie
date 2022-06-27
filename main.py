@@ -24,9 +24,9 @@ async def on_ready():
                           name = 'that snake BRAD because he is fucked'))
 
 async def insult_brad(ctx):
-    roll = random.randint(1,2)
-    if ctx.message.author.id == BRAD_ID and roll == 2:
-        await ctx.message.reply(f"This time I can't be arsed helping you Brad, because you suck you {get_insult('long form')}!")
+    roll = random.randint(1,5)
+    if ctx.message.author.id == BRAD_ID and roll >= 4:
+        await ctx.message.reply(f"This time I can't be arsed helping you Brad, because you suck you {get_insult('long form')}! Try Again! #powerfulEnemies")
         return True
     else:
         return False
