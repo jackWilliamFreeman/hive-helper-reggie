@@ -21,6 +21,8 @@ async def format_dice_params(ctx, args):
         dice_size = int(dice_args[1])     
     else: 
         await ctx.reply(f"give me a good format you {get_insult('long form')}, something like !roll 1d6 or !roll d6, max 2 digits so 1-99")
+        raise Exception("the fuck...")
+ 
 
     if len(args) > 1:
         i = 1
